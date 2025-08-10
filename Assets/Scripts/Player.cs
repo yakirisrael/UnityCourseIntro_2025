@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
@@ -27,18 +28,50 @@ public class Player : MonoBehaviour
     public LayerMask obstacleMask;
     public Collider2D FeetArea;
     
+    private Rigidbody2D rb;
+    
     Vector3 deltaMove = Vector3.zero;
+
+    public float JumpForce = 3.0f;
+
+    public float JumpTime = 1.0f;
+
+    private float horizontal = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
         originalScale = transform.localScale;
         Debug.Log("Update of Player");
+
+        rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+    }
+
+    IEnumerator StopPhysics()
+    {
+        yield return new WaitForSeconds(JumpTime);
+        
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.gravityScale = 0;
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+
+            Vector2 force = new Vector2(horizontal, JumpForce);
+            
+            rb.AddForce(force);
+            
+            StartCoroutine(StopPhysics());
+        }
+
         if (Input.GetMouseButtonDown((int)MouseButton.Left))
         {
             // left click
@@ -56,7 +89,7 @@ public class Player : MonoBehaviour
 
         if (IsAnimationRunning("Punch")) return;
             
-        float horizontal = Input.GetAxis("Horizontal");
+         horizontal = Input.GetAxis("Horizontal");
 
         if (horizontal != 0)
         {
