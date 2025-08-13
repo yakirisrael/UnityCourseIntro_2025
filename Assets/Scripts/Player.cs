@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public float JumpTime = 1.0f;
 
     private float horizontal = 0;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+      /*  if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
 
@@ -70,7 +71,7 @@ public class Player : MonoBehaviour
             rb.AddForce(force);
             
             StartCoroutine(StopPhysics());
-        }
+        } */
 
         if (Input.GetMouseButtonDown((int)MouseButton.Left))
         {
@@ -78,6 +79,7 @@ public class Player : MonoBehaviour
             Debug.Log("Left click pressed");
             state = CharacterState.Punch;
             
+           
             animator.SetTrigger(state.ToString());
 
         }
@@ -97,7 +99,7 @@ public class Player : MonoBehaviour
             
             deltaMove =  Vector3.right * (horizontal * speed * Time.deltaTime);
             if (CanMove(deltaMove))
-                transform.position += deltaMove;// for Dima's sake
+                transform.position += deltaMove;
          
             transform.localScale = new Vector3(
                 horizontal * Mathf.Abs(transform.localScale.x), 
@@ -164,5 +166,14 @@ public class Player : MonoBehaviour
         Vector2 direction = new Vector2(deltaMove.x, deltaMove.y);
         int hitCount = FeetArea.Cast(direction, filter, hits, direction.magnitude + 0.1f);
         return hitCount == 0;
+    }
+
+    public void PlayAttackSFX(AudioClip clip)
+    {
+        AudioManager.Instance.PlaySFXOneShot(clip);
+      
+        // Examples to try
+        //AudioManager.Instance.PlaySFXCustom(clip, 0.2f, 0.5f);
+        //AudioManager.Instance.PlaySFXCustom(clip, 1, -3.0f);
     }
 }
