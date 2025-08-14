@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
@@ -8,7 +9,8 @@ public enum CharacterState
     None,
     Idle,
     Walk,
-    Jump,
+    JumpStart,
+    JumpEnd,
     Hurt,
     Punch,
     Kick,
@@ -16,11 +18,18 @@ public enum CharacterState
     TotallyDead
 }
 
+//[Serializable]
+public class PlayerData
+{
+    public string playerName;
+    public int score;
+    public Vector3 position;
+}
+
 public class Player : MonoBehaviour
 {
     private Animator animator;
     public float speed = 5.0f;
-    private Vector3 originalScale;
     public PolygonCollider2D walkableArea;
 
     public CharacterState state;
@@ -28,13 +37,7 @@ public class Player : MonoBehaviour
     public LayerMask obstacleMask;
     public Collider2D FeetArea;
     
-    private Rigidbody2D rb;
-    
     Vector3 deltaMove = Vector3.zero;
-
-    public float JumpForce = 3.0f;
-
-    public float JumpTime = 1.0f;
 
     private float horizontal = 0;
     
@@ -42,36 +45,21 @@ public class Player : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        originalScale = transform.localScale;
         Debug.Log("Update of Player");
-
-        rb = GetComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Kinematic;
-    }
-
-    IEnumerator StopPhysics()
-    {
-        yield return new WaitForSeconds(JumpTime);
-        
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.gravityScale = 0;
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-      /*  if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && state != CharacterState.JumpStart)
         {
-            rb.bodyType = RigidbodyType2D.Dynamic;
+            state = CharacterState.JumpStart;
+            //   _animator.Play(_state.ToString());
+            
+            GetComponent<JumpAction>().JumpStart(horizontal);
+        }
 
-            Vector2 force = new Vector2(horizontal, JumpForce);
-            
-            rb.AddForce(force);
-            
-            StartCoroutine(StopPhysics());
-        } */
+        if (state == CharacterState.JumpStart) return;
 
         if (Input.GetMouseButtonDown((int)MouseButton.Left))
         {
@@ -175,5 +163,11 @@ public class Player : MonoBehaviour
         // Examples to try
         //AudioManager.Instance.PlaySFXCustom(clip, 0.2f, 0.5f);
         //AudioManager.Instance.PlaySFXCustom(clip, 1, -3.0f);
+    }
+
+    public void JumpEnd()
+    {
+        state = CharacterState.None;
+        //   _animator.SetTrigger(_state.ToString());
     }
 }

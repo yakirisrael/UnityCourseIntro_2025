@@ -612,7 +612,7 @@ GameObject:
   - component: {fileID: 428665778}
   - component: {fileID: 428665780}
   - component: {fileID: 428665779}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shadow
   m_TagString: PlayerZone
   m_Icon: {fileID: 0}
@@ -668,8 +668,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0037616363, y: 0.013743326}
-  m_Size: {x: 0.9701133, y: 0.47855031}
+  m_Offset: {x: 0.0037616168, y: -0.06582978}
+  m_Size: {x: 0.97011334, y: 0.31940466}
   m_Direction: 1
 --- !u!212 &428665780
 SpriteRenderer:
@@ -726,6 +726,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &439029427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 439029428}
+  m_Layer: 0
+  m_Name: GroundRayscastStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &439029428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439029427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.024, y: -0.319, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1206453138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &440220981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1078,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1158,12 +1190,27 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.90400004, y: 0.299, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1206453138}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3967c67d6c7d5d4408c2830527062973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1206453138}
+  offset: {x: 0, y: 0}
+  smoothSpeed: 0.01
 --- !u!1 &529476638
 GameObject:
   m_ObjectHideFlags: 0
@@ -2418,6 +2465,7 @@ GameObject:
   - component: {fileID: 1206453140}
   - component: {fileID: 1206453141}
   - component: {fileID: 1206453142}
+  - component: {fileID: 1206453143}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2493,9 +2541,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 519420032}
   - {fileID: 997260807}
   - {fileID: 428665778}
+  - {fileID: 439029428}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1206453139
@@ -2552,8 +2600,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   FeetArea: {fileID: 428665779}
-  JumpForce: 50
-  JumpTime: 2
 --- !u!50 &1206453142
 Rigidbody2D:
   serializedVersion: 5
@@ -2581,6 +2627,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1206453143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206453136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f726e594c43c874aae523c6997fee92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShadowTransform: {fileID: 428665778}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  JumpForce: 70
+  RaycastDistance: 0.001
+  groundRaycastStart: {fileID: 439029428}
 --- !u!1 &1224682532
 GameObject:
   m_ObjectHideFlags: 0
@@ -4074,6 +4139,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 619394802}
+  - {fileID: 519420032}
   - {fileID: 1206453138}
   - {fileID: 902727462}
   - {fileID: 57650749}
