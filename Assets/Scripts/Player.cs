@@ -18,14 +18,6 @@ public enum CharacterState
     TotallyDead
 }
 
-//[Serializable]
-public class PlayerData
-{
-    public string playerName;
-    public int score;
-    public Vector3 position;
-}
-
 public class Player : MonoBehaviour
 {
     private Animator animator;
